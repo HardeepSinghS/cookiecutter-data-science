@@ -1,0 +1,57 @@
+[tool.pdm]
+
+[project]
+name = "{{cookiecutter.project_name}}"
+version = "{{cookiecutter.version}}"
+description = "{{cookiecutter.description}}"
+authors = [
+    {name = "{{cookiecutter.author_name}}", email = "{{cookiecutter.author_email}}"},
+]
+dependencies = [
+    # Data Engineering
+    "duckdb",
+    "pandas",
+    "polars",
+    "pyarrow",
+    "pypika",
+    "great-expectations",
+    # ML Engineering
+    "hydra-core",
+    # Data Science
+    "scikit-learn",
+    # Visualization
+    # ODBC Managers
+    "turbodbc @ file:///H:/Programs/packages/turbodbc-4.5.5-cp310-cp310-win_amd64.whl",
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm.dev-dependencies]
+lint = [
+    "black",
+    "flake8",
+    "isort",
+    "pylint",
+    "mypy"
+]
+test = [
+    "pytest",
+    "pytest-cov"
+]
+doc = [
+    "jupyter",
+    "myst-parser",
+    "Sphinx",
+    "sphinx-autobuild",
+    "sphinx-book-theme"
+]
+types = [
+    "types-PyYAML",
+    "types-python-dateutil"
+]
+env = ["python-dotenv"]
+
+[build-system]
+requires = ["pdm-pep517>=1.0"]
+build-backend = "pdm.pep517.api"

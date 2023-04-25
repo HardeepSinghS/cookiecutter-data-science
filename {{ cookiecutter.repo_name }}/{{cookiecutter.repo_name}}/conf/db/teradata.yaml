@@ -1,0 +1,6 @@
+defaults:
+  - base_teradata
+
+dsn: ${oc.env:TERADATA_ODBC}
+uid: ${oc.env:AD_USERNAME}
+pwd: ${oc.env:TERADATA_PASSWORD}

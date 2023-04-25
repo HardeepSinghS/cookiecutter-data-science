@@ -1,0 +1,115 @@
+version: 1
+disable_existing_loggers: true
+
+formatters:
+  standard:
+    format: '[%(asctime)s]:[%(levelname)s]: %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+  error:
+    format: "%(levelname)s <PID %(process)d:%(processName)s> %(name)s.%(funcName)s() | %(message)s"
+  json:
+    '()': logging_json.JSONFormatter
+    fields:
+      timestamp: asctime
+      name: name
+      level: levelname
+    datefmt: '%Y-%m-%d %H:%M:%S'
+
+filters:
+  critical_filter:
+    '()': logger.LevelFilter
+    level: 50
+
+  error_filter:
+    '()': logger.LevelFilter
+    level: 40
+
+  warning_filter:
+    '()': logger.LevelFilter
+    level: 30
+
+  info_filter:
+    '()': logger.LevelFilter
+    level: 20
+
+  debug_filter:
+    '()': logger.LevelFilter
+    level: 10
+
+  notset_filter:
+    '()': logger.LevelFilter
+    level: 0
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: json
+    stream: ext://sys.stdout
+
+  info_file_handler:
+    class: logging.handlers.RotatingFileHandler
+    level: INFO
+    formatter: json
+    filters: [info_filter]
+    filename: ${log_path:./logs/global/info.log}
+    maxBytes: 10485760 # 10MB
+    backupCount: 20
+    encoding: utf8
+
+  error_file_handler:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: error
+    filters: [error_filter]
+    filename: ${log_path:./logs/global/errors.log}
+    maxBytes: 10485760 # 10MB
+    backupCount: 20
+    encoding: utf8
+
+  debug_file_handler:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: json
+    filters: [debug_filter]
+    filename: ${log_path:./logs/global/debug.log}
+    maxBytes: 10485760 # 10MB
+    backupCount: 20
+    encoding: utf8
+
+  critical_file_handler:
+    class: logging.handlers.RotatingFileHandler
+    level: CRITICAL
+    formatter: json
+    filters: [critical_filter]
+    filename: ${log_path:./logs/global/critical.log}
+    maxBytes: 10485760 # 10MB
+    backupCount: 20
+    encoding: utf8
+
+  warning_file_handler:
+    class: logging.handlers.RotatingFileHandler
+    level: WARNING
+    formatter: json
+    filters: [warning_filter]
+    filename: ${log_path:./logs/global/warning.log}
+    maxBytes: 10485760 # 10MB
+    backupCount: 20
+    encoding: utf8
+
+root:
+  level: "NOTSET"
+  handlers: [console, info_file_handler, error_file_handler, debug_file_handler,
+    critical_file_handler, warning_file_handler]
+  propagate: no
+
+loggers:
+  tds.pipeline:
+    level: WARNING
+    handlers: [warning_file_handler]
+    propagate: yes
+
+  tds.logger:
+    level: INFO
+    handlers: [info_file_handler]
+    propagate: no

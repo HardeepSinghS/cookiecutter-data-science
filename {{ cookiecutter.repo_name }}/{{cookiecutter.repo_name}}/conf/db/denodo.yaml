@@ -1,0 +1,6 @@
+defaults:
+  - base_denodo
+
+dsn: ${oc.env:DENODO_ODBC}
+uid: ${oc.env:AD_USERNAME}
+pwd: ${oc.env:AD_PASSWORD}

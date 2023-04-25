@@ -1,0 +1,6 @@
+defaults:
+  - base_hive
+
+dsn: ${oc.env:HIVE_ODBC}
+uid: null
+pwd: null
